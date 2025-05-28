@@ -1,0 +1,57 @@
+[gd_scene load_steps=6 format=3 uid="uid://dlbo5tect4evw"]
+
+[ext_resource type="Script" uid="uid://c4vd78722hojl" path="res://Game_1-Flappy_Bird/scenes/scripts/obstacle.gd" id="1_xlsob"]
+[ext_resource type="Texture2D" uid="uid://be4aboeo1s3wy" path="res://Game_1-Flappy_Bird/sprites/obstacle.png" id="2_0u4c1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xlsob"]
+resource_local_to_scene = true
+size = Vector2(20, 645.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0u4c1"]
+resource_local_to_scene = true
+size = Vector2(20, 130.313)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j13vf"]
+size = Vector2(13, 648)
+
+[node name="Obstacle" type="Node2D"]
+script = ExtResource("1_xlsob")
+
+[node name="Top" type="TextureRect" parent="."]
+texture_filter = 1
+offset_left = 20.0
+offset_top = 85.0
+offset_right = 60.0
+offset_bottom = 170.0
+rotation = 3.14159
+texture = ExtResource("2_0u4c1")
+
+[node name="Area2D" type="Area2D" parent="Top"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Top/Area2D"]
+position = Vector2(20, 322.25)
+shape = SubResource("RectangleShape2D_xlsob")
+
+[node name="Bottom" type="TextureRect" parent="."]
+texture_filter = 1
+offset_left = -20.0
+offset_top = 518.0
+offset_right = 20.0
+offset_bottom = 648.0
+texture = ExtResource("2_0u4c1")
+
+[node name="Area2D" type="Area2D" parent="Bottom"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bottom/Area2D"]
+position = Vector2(19.5, 65)
+shape = SubResource("RectangleShape2D_0u4c1")
+
+[node name="ExitArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitArea"]
+position = Vector2(15, 324)
+shape = SubResource("RectangleShape2D_j13vf")
+
+[connection signal="body_entered" from="Top/Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="Bottom/Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="ExitArea" to="." method="_on_exit_area_body_exited"]

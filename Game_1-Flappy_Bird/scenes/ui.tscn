@@ -1,0 +1,64 @@
+[gd_scene load_steps=3 format=3 uid="uid://rq2aw6wh65e7"]
+
+[ext_resource type="Script" uid="uid://dlcwbnk8jkusy" path="res://Game_1-Flappy_Bird/scenes/scripts/update_ui.gd" id="1_4d08d"]
+[ext_resource type="Theme" uid="uid://cbmcb6fsam5y" path="res://Game_1-Flappy_Bird/resources/pixel.tres" id="2_t2y5w"]
+
+[node name="Ui" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4d08d")
+
+[node name="GameInfo" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 11.0
+offset_right = 170.0
+offset_bottom = 67.0
+theme = ExtResource("2_t2y5w")
+theme_override_font_sizes/normal_font_size = 32
+text = "Score:"
+
+[node name="Panel" type="Panel" parent="."]
+process_mode = 2
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -163.0
+offset_top = -81.5
+offset_right = 163.0
+offset_bottom = 81.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -46.0
+offset_right = 46.0
+offset_bottom = 40.0
+grow_horizontal = 2
+theme_override_constants/margin_top = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="Label" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_t2y5w")
+text = "Game Over!"
+
+[node name="Button" type="Button" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_t2y5w")
+text = "Restart"

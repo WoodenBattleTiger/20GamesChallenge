@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cbmcb6fsam5y"]
+
+[ext_resource type="FontFile" uid="uid://b6vdgej7lu21b" path="res://Game_1-Flappy_Bird/misc/C&C Red Alert [INET].ttf" id="1_eresq"]
+
+[resource]
+default_font = ExtResource("1_eresq")
+default_font_size = 32

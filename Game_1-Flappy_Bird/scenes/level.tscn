@@ -1,0 +1,88 @@
+[gd_scene load_steps=13 format=3 uid="uid://qipsb8cg3asw"]
+
+[ext_resource type="PackedScene" uid="uid://hm867q4dknhb" path="res://Game_1-Flappy_Bird/scenes/player.tscn" id="1_1g6dy"]
+[ext_resource type="Script" uid="uid://lom5ttme2x1h" path="res://Game_1-Flappy_Bird/scenes/scripts/floor.gd" id="1_afww6"]
+[ext_resource type="Script" uid="uid://doqfomv0me16v" path="res://Game_1-Flappy_Bird/scenes/scripts/level.gd" id="1_wun3t"]
+[ext_resource type="Texture2D" uid="uid://dlmbjb27k7nll" path="res://Game_1-Flappy_Bird/sprites/background.png" id="2_bsu8t"]
+[ext_resource type="Script" uid="uid://6pcrn30omawe" path="res://Game_1-Flappy_Bird/scenes/scripts/obstacle_spawning.gd" id="2_wepw8"]
+[ext_resource type="PackedScene" uid="uid://dlbo5tect4evw" path="res://Game_1-Flappy_Bird/scenes/obstacle.tscn" id="3_c71ss"]
+[ext_resource type="PackedScene" uid="uid://rq2aw6wh65e7" path="res://Game_1-Flappy_Bird/scenes/ui.tscn" id="5_y3sr0"]
+[ext_resource type="AudioStream" uid="uid://b7kjkejytmooe" path="res://Game_1-Flappy_Bird/misc/woosh.wav" id="8_bhkwm"]
+[ext_resource type="AudioStream" uid="uid://dnbdmcrpka3te" path="res://Game_1-Flappy_Bird/misc/squeak.wav" id="9_bhkwm"]
+[ext_resource type="AudioStream" uid="uid://oi6trg82k06j" path="res://Game_1-Flappy_Bird/misc/score.mp3" id="10_bxct2"]
+[ext_resource type="AudioStream" uid="uid://lu3lab1yagsa" path="res://Game_1-Flappy_Bird/misc/bg_music.mp3" id="11_govfh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y3sr0"]
+size = Vector2(207, 20)
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_wun3t")
+
+[node name="Parallax2D" type="Parallax2D" parent="."]
+repeat_size = Vector2(1152, 0)
+autoscroll = Vector2(-50, 0)
+ignore_camera_scroll = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
+position = Vector2(576, 324)
+texture = ExtResource("2_bsu8t")
+
+[node name="Floor" type="Area2D" parent="."]
+script = ExtResource("1_afww6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+position = Vector2(240, 655)
+shape = SubResource("RectangleShape2D_y3sr0")
+
+[node name="Ceiling" type="Area2D" parent="Floor"]
+script = ExtResource("1_afww6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Ceiling"]
+position = Vector2(242, -92)
+shape = SubResource("RectangleShape2D_y3sr0")
+
+[node name="Player" parent="." instance=ExtResource("1_1g6dy")]
+position = Vector2(220, 200)
+scale = Vector2(1.25, 1.25)
+
+[node name="Obstacles" type="Node2D" parent="."]
+position = Vector2(1152, 0)
+script = ExtResource("2_wepw8")
+obstacle = ExtResource("3_c71ss")
+
+[node name="Ui" parent="." instance=ExtResource("5_y3sr0")]
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 1152.0
+offset_bottom = 648.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="Flap" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_bhkwm")
+volume_db = -10.0
+pitch_scale = 2.0
+
+[node name="Squeak" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
+stream = ExtResource("9_bhkwm")
+volume_db = -2.0
+
+[node name="Score" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_bxct2")
+volume_db = -10.0
+pitch_scale = 0.9
+
+[node name="BGMusic" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("11_govfh")
+volume_db = -12.0
+pitch_scale = 0.8
+autoplay = true
+
+[connection signal="body_entered" from="Floor" to="Floor" method="_on_body_entered"]
+[connection signal="player_dies" from="Floor" to="." method="on_player_death"]
+[connection signal="body_entered" from="Floor/Ceiling" to="Floor/Ceiling" method="_on_body_entered"]
+[connection signal="player_dies" from="Floor/Ceiling" to="." method="on_player_death"]
+[connection signal="jump" from="Player" to="." method="play_flap_sound"]
+[connection signal="on_speed_increase" from="Obstacles" to="." method="_on_obstacles_on_speed_increase"]
