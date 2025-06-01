@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://gbdfc002nbe8"]
+
+[ext_resource type="PackedScene" uid="uid://83bker7n6amd" path="res://Game_2-Jetpack_Joyride/scenes/player.tscn" id="1_f66ip"]
+[ext_resource type="Script" uid="uid://bua64wxsny6i4" path="res://Game_2-Jetpack_Joyride/scenes/scripts/obstacles.gd" id="2_ff2u1"]
+[ext_resource type="PackedScene" uid="uid://ceacq2shuvsq2" path="res://Game_2-Jetpack_Joyride/scenes/obstacle.tscn" id="3_ml86m"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f66ip"]
+size = Vector2(1151, 29.5)
+
+[node name="Level" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_f66ip")]
+position = Vector2(166, 111)
+
+[node name="Ceiling" type="StaticBody2D" parent="."]
+position = Vector2(0, -15)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ceiling"]
+position = Vector2(576.5, 9)
+shape = SubResource("RectangleShape2D_f66ip")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_top = 609.0
+offset_right = 1152.0
+offset_bottom = 649.0
+
+[node name="Area2D" type="StaticBody2D" parent="ColorRect"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ColorRect/Area2D"]
+position = Vector2(576.5, 14.75)
+shape = SubResource("RectangleShape2D_f66ip")
+
+[node name="Obstacles" type="Node2D" parent="."]
+script = ExtResource("2_ff2u1")
+obstacle = ExtResource("3_ml86m")
